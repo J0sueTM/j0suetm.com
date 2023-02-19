@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'Space Mono', monospace;
+  font-weight: bold;
+}
+
+::selection {
+  background: #222323;
+  color: #ffffff;
+}
