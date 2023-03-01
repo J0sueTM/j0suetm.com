@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./gen"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Topic {
+  TECHNOLOGY
+  OPINION
+  MARKETING
+  FINANCES
+}
+
+model Post {
+  id     String   @id @default(auto()) @map("_id") @db.ObjectId
+  topic  Topic    @default(TECHNOLOGY)
+  title  String
+  tagIDs String[] @db.ObjectId
+  tags   Tag[]    @relation(fields: [tagIDs], references: [id])
+  text   Bytes
+  medias Media[]
+}
+
+model Tag {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  postIDs String[] @db.ObjectId
+  posts   Post[]   @relation(fields: [postIDs], references: [id])
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+}
+
+model Media {
+  id     String    @id @default(auto()) @map("_id") @db.ObjectId
+  type   MediaType @default(IMAGE)
+  data   Bytes
+  Post   Post?     @relation(fields: [postId], references: [id])
+  postId String?   @db.ObjectId
+}

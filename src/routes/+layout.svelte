@@ -1,5 +1,8 @@
 <script>
+  import Loader from '$lib/components/Loader.svelte';
   import '../app.css'
 </script>
 
-<slot/>
+<Loader>
+  <slot/>
+</Loader>

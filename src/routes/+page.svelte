@@ -1,6 +1,7 @@
 <script lang="ts">
   import Header from '$lib/components/Header.svelte'
   import Loader from '$lib/components/Loader.svelte'
+  import Button from '$lib/components/Button.svelte'
 
   import Pfp from '$lib/assets/pfp.jpg'
 
@@ -23,15 +24,21 @@
     </div>
     <div class="w-full px-6 col-span-12 row-span-2 flex flex-col justify-center items-center border-b-2 border-dark
                 sm:col-span-7 sm:row-span-4 sm:border-b-0 sm:border-r-2
-                md:px-10 md:col-span-8 md:text-lg
+                md:px-10 md:col-span-8
                 lg:px-20">
-      <p class="">
-        Hi, I’m a curious and enthusiastic Software Developer based in SP, Brazil. I work mainly with Backend and Low Level, but also as a FullStack Developer. At the end of the day, if it's code, I'm the guy you should call. ->
+      <p class="text-sm items-end
+                md:text-lg">
+        Hi! I'm a software developer based in São Paulo, specializing in Backend and Low Level Programming, as well as Full Stack development. Whether you need a custom application or want to enhance your existing software, I'm your guy. Let's bring your ideas to life with clean, efficient code, hit me up.
+        <span class="sm:hidden">|&lt;</span>
+        <span class="hidden sm:inline-block">-></span>
       </p>
-      <div class="w-full mt-2 flex flex-wrap space-x-2">
+      <div class="hidden
+                  sm:w-full sm:mt-2 sm:grid sm:grid-cols-3 sm:gap-3
+                  md:flex flex-wrap">
         {#each stack as tech}
-	        <div class="w-min h-min px-2 py-1 border-2 border-dark">
-            <p class="text-xs">{tech}</p>
+	        <div class="w-full h-min px-2 py-1 border-2 border-dark
+                      md:w-min">
+            <p class="flex justify-center items-center text-xs">{tech}</p>
           </div>
         {/each}
       </div>
@@ -39,36 +46,10 @@
     <div class="w-full h-full col-span-12 row-span-2 grid grid-cols-2 grid-rows-2
                 sm:col-span-5 sm:row-span-4 sm:grid-cols-1 sm:grid-rows-4
                 md:col-span-4 md:row-span-6 md:col-start-9 md:row-start-1">
-      <a
-        class="w-full h-full flex justify-center items-center text-lg bg-white border-r-2 border-dark
-               sm:border-r-0 border-b-2
-               hover:bg-dark hover:text-white"
-        href="https://linkedin.com/in/josue-teodoro-moreira" target="_blank" rel="noreferrer"
-      >
-        LINKEDIN
-      </a>
-      <a
-        class="w-full h-full flex justify-center items-center text-lg bg-white border-b-2 border-dark
-               hover:bg-dark hover:text-white"
-        href="https://linkedin.com/in/josue-teodoro-moreira" target="_blank" rel="noreferrer"
-      >
-        GITHUB
-      </a>
-      <a
-        class="w-full h-full flex justify-center items-center text-lg bg-white border-r-2 border-dark
-               sm:border-r-0 sm:border-b-2
-               hover:bg-dark hover:text-white"
-        href="https://linkedin.com/in/josue-teodoro-moreira" target="_blank" rel="noreferrer"
-      >
-        TWITTER
-      </a>
-      <a
-        class="w-full h-full flex justify-center items-center text-lg bg-white border-dark
-               hover:bg-dark hover:text-white"
-        href="https://linkedin.com/in/josue-teodoro-moreira" target="_blank" rel="noreferrer"
-      >
-        INSTAGRAM
-      </a>
+     <Button class="" text="LINKEDIN" href="https://linkedin.com/in/josue-teodoro-moreira" blank={true}/>
+     <Button class="" text="GITHUB" href="https://github.com/j0suetm" blank={true}/>
+     <Button class="" text="TWITTER" href="https://twitter.com/j0suetm" blank={true}/>
+     <Button class="" text="INSTAGRAM" href="https://instagram.com/j0suetm" blank={true}/>
     </div>
   </main>
 </Loader>
