@@ -30,55 +30,73 @@ const getModifier = (size: number) => {
 export const textToMarkdown = (text: string) => {
   let lines: string[] = text.split('\n')
 
-
-  let isReadingCode: boolean = false
-  let codeLanguage: string = ''
-  let codeBuffer: string = ''
-
   let type: string = 'text'
   let modifier: string = 'sm'
+  let data: string = ''
+
+  let isDoneWithCode: boolean = false
+
   let tokens: MdToken[] = []
   lines.forEach((l: string) => {
     const la = l.replaceAll(' ', '')
-    if (la.length <= 0 && isReadingCode) {
-      codeBuffer += '\n'
-      return
-    } else if (la.length <= 0)
-      return
+    if (la.length <= 0)
+      data = (type === 'code') ? data + '\n' : '\n'
 
-    if (la.includes('#') && !isReadingCode) {
-      const ts = la.replace(/[^#]/g, '').split('#')
-      modifier = getModifier(ts.length)
-      l = l.replaceAll('#', '')
-
+    if (la.includes('```') || (type === 'code' && !isDoneWithCode)) {
+      type = 'code'
+    } else if (la.at(0) === '-') {
+      type = 'topic'
+    } else if (la.includes('[]')) {
+      type = 'resource'
+    } else {
       type = 'text'
-    } else if (la.includes('```')) {
-      isReadingCode = !isReadingCode
-      if (isReadingCode) {
-        codeLanguage = la.replace('```', '')
-        l = ''
-
-        type = 'code'
-        modifier = codeLanguage
-
-        return
-      }
-    }
-    if (isReadingCode && !la.includes('```')) {
-      codeBuffer += l + '\n'
-    } else if (isReadingCode && la.includes('```')) {
-      isReadingCode = false
     }
 
-    if (!isReadingCode) {
-      tokens.push({
-        type: type,
-        modifier: modifier,
-        data: (codeBuffer !== '') ? codeBuffer : l 
-      })
+    switch (type) {
+      case 'code':
+        if (la.includes('```')) {
+          const lang = la.replace('```', '')
+          if (lang.length >= 1)
+            modifier = lang
+          else
+            isDoneWithCode = true
+        } else {
+          data += (la.length <= 0) ? l : l + '\n'
+        }
 
-      modifier = 'sm'
-      codeBuffer = ''
+        if (!isDoneWithCode)
+          return
+
+        break
+      case 'text':
+        if (la.includes('#')) {
+          const ts = la.replace(/[^#]/g, '').split('#')
+          modifier = getModifier(ts.length)
+        } else {
+          modifier = 'sm'
+        }
+
+        data = l.replaceAll('#', '')
+
+        break
+      case 'topic':
+        data = l.replaceAll('-', '')
+        modifier = l.indexOf('-').toString()
+
+        break
+      default:
+        break
+    }
+
+    tokens.push({
+      type: type,
+      modifier: modifier,
+      data: data
+    })
+
+    if (isDoneWithCode) {
+      type = ''
+      isDoneWithCode = false
     }
   })
 

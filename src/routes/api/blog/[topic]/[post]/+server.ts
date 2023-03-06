@@ -9,9 +9,7 @@ export interface GetPostResponse {
 
 export const GET = (async ({ url }) => {
   const topicName: string = url.pathname.split('/').at(-2)
-  let postTitle: string = url.pathname.split('/').at(-1)
-  postTitle = postTitle.slice(0, 1).toUpperCase() + postTitle.slice(1).replaceAll('_', ' ')
-  console.log(postTitle)
+  let postTitle: string = url.pathname.split('/').at(-1).replaceAll('_', ' ').toUpperCase()
 
   const topicId = await prisma.topic.findMany({
     select: {id: true},
@@ -19,7 +17,7 @@ export const GET = (async ({ url }) => {
   })
   .then((topicIDs: Array<any>) => {
     if (topicIDs.length <= 0)
-      return new Error(`Invalid topic name ${topicName}`)
+      return new Response(`Invalid topic name ${topicName}`, )
 
     return topicIDs.at(-1).id
   })
@@ -31,7 +29,8 @@ export const GET = (async ({ url }) => {
     select: {
       title: true,
       text: true,
-      date: true
+      date: true,
+      tags: true
     },
     where: {
       topicId: topicId,
@@ -43,5 +42,11 @@ export const GET = (async ({ url }) => {
   if (post instanceof Error)
     return new Response(post.message)
 
-  return new Response(JSON.stringify(post))
+  return new Response(JSON.stringify({
+    'topic': topicName,
+    'title': post?.title,
+    'text': post?.text.toString(),
+    'date': post?.date,
+    'tags': post?.tags.split(',')
+  }))
 })

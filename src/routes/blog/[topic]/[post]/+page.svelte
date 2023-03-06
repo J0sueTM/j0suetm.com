@@ -13,11 +13,11 @@
   const getPost = async () => {
     const res = await fetch(`/api/blog/${data.topic}/${data.post}`);
 
-    if (res.ok) return await res.json();
-    else return await res.text();
+    if (res.ok)
+      return await res.json()
+    else
+      return await res.text()
   };
-
-  const tags: string[] = ["Go", "Svelte"];
 </script>
 
 <Header title={data.topic} />
@@ -25,7 +25,11 @@
   {#await getPost()}
     <Loader />
   {:then post}
-    <PostRenderer text={data.post.text}/>
+    {#if post === null || post === undefined}
+      <p class="w-min mx-auto">Could not load post...</p>
+    {:else}
+      <PostRenderer isEditing={false} topic={post.topic} text={post.text} title={post.title} date={new Date(post.date)} tags={post.tags}/>
+    {/if}
   {:catch error}
     {error.message}
   {/await}

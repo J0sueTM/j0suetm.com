@@ -24,30 +24,8 @@ model Post {
   topicId Int
   topic   Topic @relation(fields: [topicId], references: [id])
   date    DateTime @default(now())
-  tags    Tag[]
+  tags    String
   title   String
   summary String
   text    Bytes
-  medias  Media[]
-}
-
-model Tag {
-  id      Int    @id @default(autoincrement())
-  name    String
-  posts   Post[]
-}
-
-model MediaType {
-  id     Int    @id @default(autoincrement())
-  name   String @unique
-  medias Media[]
-}
-
-model Media {
-  id     Int @id @default(autoincrement())
-  typeId Int
-  type   MediaType @relation(fields: [typeId], references: [id])
-  data   Bytes
-  postId Int
-  post   Post @relation(fields: [postId], references: [id])
 }

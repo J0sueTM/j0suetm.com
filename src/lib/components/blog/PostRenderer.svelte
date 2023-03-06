@@ -3,13 +3,13 @@
   import Loader from '../Loader.svelte'
   import { textToMarkdown, type MdToken } from './markdown'
 
-  import actually from '$lib/assets/actually.jpeg'
-  import { each } from 'svelte/internal';
+  export let isEditing: boolean = false
+  export let topic: string = 'technology'
+  export let title: string = 'NEW POST'
+  export let date: Date = new Date(Date.now())
+  export let tags: string[] = []
 
-  export let topic: string
-  export let title: string
-  export let date: Date
-  export let tags: string[]
+  let topicOpts: string[] = ['technology', 'opinion', 'marketing', 'finances']
 
   export let text: string
   let parsedText: MdToken[] = []
@@ -34,59 +34,102 @@
   }
 </script>
 
-{#if !canRender}
-  <Loader></Loader>
-{:else}
-  <div class="w-full h-full flex flex-col overflow-y-auto">
-    <button class="fixed w-full h-10 px-2 flex flex-row justify-center items-center border-b-2 border-dark
-                   md:hidden">
-      <svg class="w-6 h-6 fill-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm306.7 69.1L162.4 380.6c-19.4 7.5-38.5-11.6-31-31l55.5-144.3c3.3-8.5 9.9-15.1 18.4-18.4l144.3-55.5c19.4-7.5 38.5 11.6 31 31L325.1 306.7c-3.2 8.5-9.9 15.1-18.4 18.4zM288 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/>
-      </svg>
-      <p class="ml-2 text-sm">Show navigation</p>
-    </button>
-    <div class="w-full mt-10 flex flex-col overflow-y-auto overflow-x-hidden
+<Loader>
+  <div class="w-full h-full mx-auto flex flex-col overflow-y-auto
+              md:w-4/5
+              lg:w-3/5">
+   <div class="w-full flex flex-col overflow-y-auto overflow-x-hidden
                 md:mt-0">
-      <div class="w-full flex flex-col
-                  sm:flex-row sm:mx-4 sm:mt-4
-                  md:w-11/12 md:mx-auto
-                  lg:w-4/5">
-        <img
-          class="w-full h-24 mx-auto border-b-2 border-dark object-cover
-                sm:w-1/5 sm:border-2"
-          src={actually}
-          alt="actually"
-        />
-        <p class="w-full mt-2 mx-4 text-5xl tracking-tight
-                  sm:mt-0">{title.toUpperCase()}</p>
-      </div>
-      <div class="w-full mt-2 px-4 flex flex-row
+      {#if isEditing}
+        <select class="w-1/2 h-10 mx-auto mt-4 border-2 border-dark bg-white" bind:value={topic} name="topics" id="topics">
+          {#each topicOpts as topic}
+            <option value={topic}>{topic.toUpperCase()}</option>
+          {/each}
+        </select>
+
+        <textarea
+          class="w-full px-16 py-2 text-5xl tracking-tight resize-none
+                 sm:mt-0
+                 md:h-32"
+          contenteditable={isEditing}
+          bind:value={title}
+        ></textarea>
+      {:else}
+        <p
+          class="w-full px-4 pt-4 py-2 text-5xl tracking-tight resize-none
+                 md:px-16"
+        >{title.toUpperCase()}</p>
+      {/if}
+     <div class="w-full mt-2 px-4 flex flex-row
                   md:px-6
                   lg:w-5/6 lg:mx-auto lg:px-4">
-        <p class="w-full h-min mt-3 text-xs">{new Date(date).toDateString()}</p>
+        <p class="w-full h-min mt-3 text-xs">{date.toDateString()}</p>
         <div class="w-full flex flex-row justify-end space-x-2">
-          {#each tags as tag}
-            <a
-              class="px-2 py-px border-2 border-dark"
-              href={`/blog/${topic}?tag=${tag.toLowerCase()}`}>#{tag}</a
-            >
+          {#each tags as tag, i}
+            <div class="group w-min flex flex-row">
+              <p
+                class="w-min h-min px-2 py-px border-2 border-dark"
+                contenteditable={isEditing}
+                on:input={(ev) => {
+                  tags[i] = (ev.data === null) ? '' : tag + ev.data
+                  tags = tags
+                }}
+              >{tag}</p>
+              {#if isEditing}
+                <button
+                  class="hidden w-min h-full px-2 justify-center items-center border-2 border-l-0 border-dark
+                        group-hover:flex"
+                  on:click={() => {
+                    tags.splice(i, 1)
+                    tags = tags
+                  }}
+                >X</button>
+              {/if}
+            </div>
           {/each}
+          {#if isEditing}
+            <button
+              class="px-2 py-px border-2 border-dark
+                  hover:bg-dark hover:text-white"
+              on:click={() => {
+                tags.push(`${tags.length}`)
+                tags = tags
+              }}
+            >+</button>
+          {/if}
         </div>
       </div>
       <div class="w-full mt-2 px-4 py-2 flex flex-col space-y-2">
         {#each parsedText as t}
-          {#if t.type === 'text'}
-            <p class={`w-full text-${t.modifier}`}>
+          {#if t.type === 'code'}
+            <div class="w-full flex flex-col space-y-1">
+              <p class="w-full px-4 py-1 bg-dark text-white text-xs">{t.modifier}</p>
+              <div class="w-full flex flex-row">
+                <div class="w-min pl-4 py-2 flex flex-col bg-dark">
+                  {#each t.data.split('\n') as l, i}
+                    <p class="text-white">{i}</p>
+                  {/each}
+                </div>
+                <textarea
+                  class="code w-full mx-auto px-4 py-2 flex flex-col bg-dark text-white resize-none overflow-hidden outline-none"
+                  readonly
+                  rows={t.data.split('\n').length}
+                >{t.data}</textarea>
+              </div>
+            </div>
+          {:else if t.type === 'text'}
+            <p id={(t.modifier !== 'sm') ? t.data.replaceAll(' ', '_').toLowerCase() : ''} class={`w-full text-${t.modifier}`}>
               {t.data}
             </p>
-          {:else if t.type === 'code'}
-            <textarea
-              class="code w-full mx-auto px-4 py-2 flex flex-col bg-dark text-white resize-none overflow-hidden outline-none"
-              readonly
-              rows={t.data.split('\n').length - 1}
-            >
-{t.data}
-            </textarea>
+          {:else if t.type === 'topic'}
+            <div class="w-full px-{t.modifier} flex flex-row space-x-2">
+              <svg class="w-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/>
+              </svg>
+              <p class={`w-full`}>
+                {t.data}
+              </p>
+            </div>
           {:else}
             error
           {/if}
@@ -94,7 +137,7 @@
       </div>
     </div>
   </div>
-{/if}
+</Loader>
 
 <style>
   .code::selection {
