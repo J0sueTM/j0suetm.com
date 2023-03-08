@@ -37,7 +37,7 @@
     ]
   }}
   twitter={{
-    handle: '@summary',
+    handle: '@j0suetm',
     site: '@j0suetm',
     cardType: 'summary',
     title: data.post.replaceAll('_', ' ').toUpperCase(),
