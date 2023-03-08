@@ -25,8 +25,9 @@
   title={data.post.replaceAll('_', ' ').toUpperCase()}
   titleTemplate="J0sueTM | %s"
   description={`A blog post about ${data.topic} by J0sueTM`}
+  canonical={`https://j0suetm.com/blog/${data.topic}/${data.post}`}
   openGraph={{
-    url: 'https://j0suetm.com',
+    url: `https://j0suetm.com/blog/${data.topic}/${data.post}`,
     images: [
       {
         url: 'https://j0suetm.com/_app/immutable/assets/pfp-158d20f9.jpg',
