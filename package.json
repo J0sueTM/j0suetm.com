@@ -33,6 +33,7 @@
 		"@types/mongodb": "^4.0.7",
 		"bcrypt": "^5.1.0",
 		"jsonwebtoken": "^9.0.0",
-		"mongodb": "^5.0.1"
+		"mongodb": "^5.0.1",
+		"svelte-meta-tags": "^2.6.5"
 	}
 }

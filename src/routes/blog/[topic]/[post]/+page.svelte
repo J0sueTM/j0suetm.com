@@ -2,6 +2,7 @@
   import Loader from "$lib/components/Loader.svelte";
   import Header from "$lib/components/Header.svelte";
   import PostRenderer from '$lib/components/blog/PostRenderer.svelte'
+  import { MetaTags } from 'svelte-meta-tags'
 
   interface BlogPostParams {
     topic: string;
@@ -19,6 +20,22 @@
       return await res.text()
   };
 </script>
+
+<MetaTags
+  title={data.post.replaceAll('_', ' ').toUpperCase()}
+  description={`A blog post about ${data.topic} by J0sueTM`}
+  openGraph={{
+    url: 'https://j0suetm.com',
+    images: [
+      {
+        url: 'https://j0suetm.com/_app/immutable/assets/pfp-158d20f9.jpg',
+        width: 360,
+        height: 360,
+        alt: 'pfp'
+      }
+    ]
+  }}
+/>
 
 <Header title={data.topic} />
 <main class="fixed w-full h-full left-0 top-0 pt-16 flex flex-row z-30">
