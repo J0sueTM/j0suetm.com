@@ -104,18 +104,11 @@
           {#if t.type === 'code'}
             <div class="w-full flex flex-col space-y-1">
               <p class="w-full px-4 py-1 bg-dark text-white text-xs">{t.modifier}</p>
-              <div class="w-full flex flex-row">
-                <div class="w-min pl-4 py-2 flex flex-col bg-dark">
-                  {#each t.data.split('\n') as l, i}
-                    <p class="text-white">{i}</p>
-                  {/each}
-                </div>
-                <textarea
-                  class="code w-full mx-auto px-4 py-2 flex flex-col bg-dark text-white resize-none overflow-hidden outline-none"
-                  readonly
-                  rows={t.data.split('\n').length}
-                >{t.data}</textarea>
-              </div>
+              <textarea
+                class="code w-full mx-auto px-4 py-2 flex flex-col bg-dark text-white whitespace-pre resize-none overflow-y-hidden outline-none"
+                readonly
+                rows={t.data.split('\n').length}
+              >{t.data}</textarea>
             </div>
           {:else if t.type === 'text'}
             <p id={(t.modifier !== 'sm') ? t.data.replaceAll(' ', '_').toLowerCase() : ''} class={`w-full text-${t.modifier}`}>

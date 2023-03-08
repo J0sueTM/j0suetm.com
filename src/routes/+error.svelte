@@ -1,4 +1,4 @@
-<main class="w-screen h-screen flex flex-col justify-center items-center">
+<main class="w-full h-full flex flex-col justify-center items-center">
   <p class="text-5xl">404</p>
   <p class="text-2xl">This page doesn't exist</p>
 

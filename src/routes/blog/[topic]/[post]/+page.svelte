@@ -21,7 +21,7 @@
 </script>
 
 <Header title={data.topic} />
-<main class="fixed w-screen h-screen left-0 top-0 pt-16 flex flex-row z-30">
+<main class="fixed w-full h-full left-0 top-0 pt-16 flex flex-row z-30">
   {#await getPost()}
     <Loader />
   {:then post}

@@ -4,7 +4,7 @@
 </script>
 
 <Header title="blog"/>
-<main class="fixed w-screen h-screen left-0 top-0 pt-16 grid grid-cols-1 grid-rows-4 z-30
+<main class="fixed w-full h-full left-0 top-0 pt-16 grid grid-cols-1 grid-rows-4 z-30
               md:grid-cols-4 md:grid-rows-1">
   <a
     id="technology"

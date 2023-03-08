@@ -5,7 +5,7 @@
 </script>
 
 <Header title="ADMIN"/>
-<main class="fixed w-screen h-screen left-0 top-0 pt-16 flex flex-col z-30
+<main class="fixed w-full h-full left-0 top-0 pt-16 flex flex-col z-30
              md:flex-row">
   <a class="w-full h-full group flex justify-center items-center border-r-2 border-dark" href="/admin/blog">
     <p class="w-min px-4 py-1 border-2 border-dark text-6xl

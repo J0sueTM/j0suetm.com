@@ -10,7 +10,7 @@
 
 <Loader>
   <Header title="home"/>
-  <main class="fixed w-screen h-screen left-0 top-0 pt-16 grid grid-cols-12 grid-rows-6 z-30">
+  <main class="fixed w-full h-full left-0 top-0 pt-16 grid grid-cols-12 grid-rows-6 z-30">
     <div
       id="splash"
       class="w-full px-10 py-6 col-span-12 row-span-2 flex flex-row justify-center items-center border-b-2 border-dark

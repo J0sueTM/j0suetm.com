@@ -58,7 +58,7 @@
 
 {#if !isAuthenticated}
   <Header title="LOGIN"/>
-  <main class="fixed w-screen h-screen left-0 top-0 pt-16 flex flex-row z-30">
+  <main class="fixed w-full h-full left-0 top-0 pt-16 flex flex-row z-30">
     <div class="w-1/2 h-full mx-auto flex flex-col justify-center
                 md:w-1/3
                 lg:w-1/4">

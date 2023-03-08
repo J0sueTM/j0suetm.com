@@ -10,7 +10,7 @@
 {#if canRender == true}
   <slot/>
 {:else}
-  <main class="w-screen h-screen flex flex-row justify-center items-center">
+  <main class="w-full h-full flex flex-row justify-center items-center">
     <p class="text-3xl">Loading</p>
     <svg
       class="animate-spin ml-4 mt-2 w-8 fill-dark"

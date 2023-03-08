@@ -49,7 +49,7 @@
 
   <!-- menu -->
   <div
-    class="fixed w-screen h-screen pt-16 grid grid-rows-3 text-4xl bg-white z-40
+    class="fixed w-full h-full pt-16 grid grid-rows-3 text-4xl bg-white z-40
            md:relative md:w-full md:h-16 md:pt-0 md:col-span-4 md:grid-rows-1 md:grid-cols-6 md:text-2xl"
     class:hidden={isMenuHiddenFinal}
   >
