@@ -77,7 +77,7 @@
              md:h-full md:col-span-4
              lg:col-span-3
              hover:bg-dark hover:text-white"
-      href="/portfolio"
+      href="https://github.com/j0suetm"
       on:click={() => {isMenuHidden = !isMenuHidden}}
     >
       PORTFOLIO
