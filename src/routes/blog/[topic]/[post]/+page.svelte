@@ -23,6 +23,7 @@
 
 <MetaTags
   title={data.post.replaceAll('_', ' ').toUpperCase()}
+  titleTemplate="J0sueTM | %s"
   description={`A blog post about ${data.topic} by J0sueTM`}
   openGraph={{
     url: 'https://j0suetm.com',
@@ -31,9 +32,17 @@
         url: 'https://j0suetm.com/_app/immutable/assets/pfp-158d20f9.jpg',
         width: 360,
         height: 360,
-        alt: 'pfp'
+        alt: 'thumbnail'
       }
     ]
+  }}
+  twitter={{
+    handle: '@summary',
+    site: '@j0suetm',
+    cardType: 'summary',
+    title: data.post.replaceAll('_', ' ').toUpperCase(),
+    image: 'https://j0suetm.com/_app/immutable/assets/pfp-158d20f9.jpg',
+    imageAlt: 'thumbnail'
   }}
 />
 
